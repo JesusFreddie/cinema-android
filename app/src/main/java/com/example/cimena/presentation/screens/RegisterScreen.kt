@@ -74,7 +74,7 @@ fun RegisterScreen() {
 
             Box (
                 modifier = Modifier
-                    .background(color = Color.White.copy(alpha = 0.1f), shape = RoundedCornerShape(16.dp))
+                    .background(color = Color.White.copy(alpha = 0.15f), shape = RoundedCornerShape(16.dp))
             ) {
                 Column(
                     modifier = Modifier
@@ -153,11 +153,9 @@ fun RegisterScreen() {
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(30.dp))
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
@@ -169,27 +167,22 @@ fun RegisterScreen() {
                             )
                         )
 
-                        Spacer(modifier = Modifier.width(8.dp))
 
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Text(
-                                text = "Я согласен с",
-                                color = Color.White,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
+                        Text(
+                            text = "Я согласен с ",
+                            color = Color.White,
+                            textAlign = TextAlign.Start,
+                            fontSize = 10.sp
+                        )
 
-                            Text(
-                                text = "политикой конфиденциальности",
-                                color = Pink,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
-                        }
+                        Text(
+                            text = "политикой конфиденциальности",
+                            color = Pink,
+                            textAlign = TextAlign.Start,
+                            fontSize = 10.sp
+                        )
                     }
+                    Spacer(modifier = Modifier.height(30.dp))
                     // кнопка
                     Button(
                         onClick = { /* нав контрол */ },
@@ -199,7 +192,7 @@ fun RegisterScreen() {
                             .background(Pink, shape = RoundedCornerShape(16.dp)),
                         colors = ButtonDefaults.buttonColors(containerColor = Pink)
                     ) {
-                        Text("Зарегистристрироваться", fontSize = 16.sp, color = Color.White)
+                        Text("Зарегистрироваться", fontSize = 16.sp, color = Color.White)
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))

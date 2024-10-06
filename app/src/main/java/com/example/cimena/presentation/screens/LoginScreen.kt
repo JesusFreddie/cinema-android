@@ -45,6 +45,7 @@ fun LoginScreen() {
             modifier = Modifier.fillMaxSize(),
         )
 
+        // Content overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -68,13 +69,11 @@ fun LoginScreen() {
 
             var login by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
-            var repeatPassword by remember { mutableStateOf("") }
             val passwordVisible by remember { mutableStateOf(false) }
-            var isChecked by remember { mutableStateOf(false) }
 
             Box (
                 modifier = Modifier
-                    .background(color = Color.White.copy(alpha = 0.1f), shape = RoundedCornerShape(16.dp))
+                    .background(color = Color.White.copy(alpha = 0.15f), shape = RoundedCornerShape(16.dp))
             ) {
                 Column(
                     modifier = Modifier
@@ -83,7 +82,7 @@ fun LoginScreen() {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Регистрация",
+                        text = "Вход",
                         style = TextStyle(fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold),
                         modifier = Modifier.align(CenterHorizontally)
                     )
@@ -130,66 +129,8 @@ fun LoginScreen() {
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    // инпут повтор пароль
-                    BasicTextField(
-                        value = repeatPassword,
-                        onValueChange = { repeatPassword = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0x99FFFFFF), shape = MaterialTheme.shapes.medium)
-                            .padding(12.dp),
-                        textStyle = TextStyle(fontSize = 18.sp, color = Color.Black),
-                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                        decorationBox = { innerTextField ->
-                            Box(Modifier.padding(horizontal = 4.dp)) {
-                                if (repeatPassword.isEmpty()) {
-                                    Text("Пароль ещё раз", style = TextStyle(color = LightGrey, fontSize = 18.sp))
-                                }
-                                innerTextField()
-                            }
-                        }
-                    )
-
                     Spacer(modifier = Modifier.height(30.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = { isChecked = it },
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = Pink,
-                                uncheckedColor = Color.Gray
-                            )
-                        )
 
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Text(
-                                text = "Я согласен с",
-                                color = Color.White,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
-
-                            Text(
-                                text = "политикой конфиденциальности",
-                                color = Pink,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
-                        }
-                    }
                     // кнопка
                     Button(
                         onClick = { /* нав контрол */ },
@@ -199,7 +140,7 @@ fun LoginScreen() {
                             .background(Pink, shape = RoundedCornerShape(16.dp)),
                         colors = ButtonDefaults.buttonColors(containerColor = Pink)
                     ) {
-                        Text("Зарегистристрироваться", fontSize = 16.sp, color = Color.White)
+                        Text("Войти", fontSize = 16.sp, color = Color.White)
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -207,7 +148,7 @@ fun LoginScreen() {
                     // ссылка на регистрацию
                     Box() {
                         Text(
-                            text = "Уже есть профиль?",
+                            text = "Еще нет аккаунта?",
                             style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
                             modifier = Modifier.align(TopCenter)
                         )
@@ -215,7 +156,7 @@ fun LoginScreen() {
                             onClick = { /* нав контрол */ },
                             modifier = Modifier.align(BottomCenter)
                         ) {
-                            Text("Войти в аккаунт", color = Pink)
+                            Text("Зарегистрироваться", color = Pink)
                         }
                     }
                 }
