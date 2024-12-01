@@ -1,3 +1,6 @@
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -59,7 +62,6 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
         )
 
-        // Content overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,7 +69,7 @@ fun RegisterScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
 
-        ) {
+            ) {
             Text(
                 text = "cine",
                 style = TextStyle(fontSize = 64.sp, fontWeight = FontWeight.ExtraBold, color = Color.White),
@@ -83,7 +85,7 @@ fun RegisterScreen(navController: NavController) {
 
             Box (
                 modifier = Modifier
-                    .background(color = Color.White.copy(alpha = 0.1f), shape = RoundedCornerShape(16.dp))
+                    .background(color = Color.White.copy(alpha = 0.15f), shape = RoundedCornerShape(16.dp))
             ) {
                 Column(
                     modifier = Modifier

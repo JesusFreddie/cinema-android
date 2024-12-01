@@ -42,6 +42,7 @@ fun LoginScreen() {
             modifier = Modifier.fillMaxSize(),
         )
 
+        // Content overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
