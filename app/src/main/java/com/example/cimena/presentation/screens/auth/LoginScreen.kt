@@ -1,6 +1,3 @@
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -32,7 +29,7 @@ import com.example.cimena.ui.theme.LightGrey
 import com.example.cimena.ui.theme.Pink
 
 @Composable
-fun RegisterScreen() {
+fun LoginScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +42,6 @@ fun RegisterScreen() {
             modifier = Modifier.fillMaxSize(),
         )
 
-        // Content overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -53,7 +49,7 @@ fun RegisterScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
 
-        ) {
+            ) {
             Text(
                 text = "cine",
                 style = TextStyle(fontSize = 64.sp, fontWeight = FontWeight.ExtraBold, color = Color.White),
@@ -69,7 +65,9 @@ fun RegisterScreen() {
 
             var login by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
+            var repeatPassword by remember { mutableStateOf("") }
             val passwordVisible by remember { mutableStateOf(false) }
+            var isChecked by remember { mutableStateOf(false) }
 
             Box (
                 modifier = Modifier
@@ -82,7 +80,7 @@ fun RegisterScreen() {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Вход",
+                        text = "Регистрация",
                         style = TextStyle(fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold),
                         modifier = Modifier.align(CenterHorizontally)
                     )
@@ -129,8 +127,66 @@ fun RegisterScreen() {
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
+                    // инпут повтор пароль
+                    BasicTextField(
+                        value = repeatPassword,
+                        onValueChange = { repeatPassword = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0x99FFFFFF), shape = MaterialTheme.shapes.medium)
+                            .padding(12.dp),
+                        textStyle = TextStyle(fontSize = 18.sp, color = Color.Black),
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+                        decorationBox = { innerTextField ->
+                            Box(Modifier.padding(horizontal = 4.dp)) {
+                                if (repeatPassword.isEmpty()) {
+                                    Text("Пароль ещё раз", style = TextStyle(color = LightGrey, fontSize = 18.sp))
+                                }
+                                innerTextField()
+                            }
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(30.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = isChecked,
+                            onCheckedChange = { isChecked = it },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = Pink,
+                                uncheckedColor = Color.Gray
+                            )
+                        )
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = "Я согласен с",
+                                color = Color.White,
+                                textAlign = TextAlign.Start,
+                                fontSize = 7.sp
+                            )
+
+                            Text(
+                                text = "политикой конфиденциальности",
+                                color = Pink,
+                                textAlign = TextAlign.Start,
+                                fontSize = 7.sp
+                            )
+                        }
+                    }
                     // кнопка
                     Button(
                         onClick = { /* нав контрол */ },
@@ -140,7 +196,7 @@ fun RegisterScreen() {
                             .background(Pink, shape = RoundedCornerShape(16.dp)),
                         colors = ButtonDefaults.buttonColors(containerColor = Pink)
                     ) {
-                        Text("Войти", fontSize = 16.sp, color = Color.White)
+                        Text("Зарегистристрироваться", fontSize = 16.sp, color = Color.White)
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -148,7 +204,7 @@ fun RegisterScreen() {
                     // ссылка на регистрацию
                     Box() {
                         Text(
-                            text = "Еще нет аккаунта?",
+                            text = "Уже есть профиль?",
                             style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
                             modifier = Modifier.align(TopCenter)
                         )
@@ -156,7 +212,7 @@ fun RegisterScreen() {
                             onClick = { /* нав контрол */ },
                             modifier = Modifier.align(BottomCenter)
                         ) {
-                            Text("Зарегистрироваться", color = Pink)
+                            Text("Войти в аккаунт", color = Pink)
                         }
                     }
                 }
@@ -167,6 +223,6 @@ fun RegisterScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterScreenPreview() {
-    RegisterScreen()
+fun LoginScreenPreview() {
+    LoginScreen()
 }

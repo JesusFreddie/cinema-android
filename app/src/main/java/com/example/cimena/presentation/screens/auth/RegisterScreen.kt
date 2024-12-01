@@ -1,6 +1,3 @@
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,6 +6,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Modifier
@@ -27,12 +25,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.cimena.R
+import com.example.cimena.presentation.screens.auth.AuthViewModel
+import com.example.cimena.ui.theme.Black
 import com.example.cimena.ui.theme.LightGrey
 import com.example.cimena.ui.theme.Pink
+import com.example.cimena.utils.LOGIN
+import com.example.cimena.utils.PASSWORD
+import com.example.memorizeapp.presentation.navigation.Screen
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen() {
+fun RegisterScreen(navController: NavController) {
+
+    val authViewModel: AuthViewModel = viewModel()
+    val coroutineScope = rememberCoroutineScope()
+    var login by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,6 +59,7 @@ fun LoginScreen() {
             modifier = Modifier.fillMaxSize(),
         )
 
+        // Content overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -52,7 +67,7 @@ fun LoginScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
 
-            ) {
+        ) {
             Text(
                 text = "cine",
                 style = TextStyle(fontSize = 64.sp, fontWeight = FontWeight.ExtraBold, color = Color.White),
@@ -66,12 +81,6 @@ fun LoginScreen() {
 
             Spacer(modifier = Modifier.height(34.dp))
 
-            var login by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var repeatPassword by remember { mutableStateOf("") }
-            val passwordVisible by remember { mutableStateOf(false) }
-            var isChecked by remember { mutableStateOf(false) }
-
             Box (
                 modifier = Modifier
                     .background(color = Color.White.copy(alpha = 0.1f), shape = RoundedCornerShape(16.dp))
@@ -83,7 +92,7 @@ fun LoginScreen() {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Регистрация",
+                        text = "Вход/Регистрация",
                         style = TextStyle(fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold),
                         modifier = Modifier.align(CenterHorizontally)
                     )
@@ -130,94 +139,29 @@ fun LoginScreen() {
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    // инпут повтор пароль
-                    BasicTextField(
-                        value = repeatPassword,
-                        onValueChange = { repeatPassword = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0x99FFFFFF), shape = MaterialTheme.shapes.medium)
-                            .padding(12.dp),
-                        textStyle = TextStyle(fontSize = 18.sp, color = Color.Black),
-                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                        decorationBox = { innerTextField ->
-                            Box(Modifier.padding(horizontal = 4.dp)) {
-                                if (repeatPassword.isEmpty()) {
-                                    Text("Пароль ещё раз", style = TextStyle(color = LightGrey, fontSize = 18.sp))
-                                }
-                                innerTextField()
-                            }
-                        }
-                    )
-
                     Spacer(modifier = Modifier.height(30.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = { isChecked = it },
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = Pink,
-                                uncheckedColor = Color.Gray
-                            )
-                        )
 
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Text(
-                                text = "Я согласен с",
-                                color = Color.White,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
-
-                            Text(
-                                text = "политикой конфиденциальности",
-                                color = Pink,
-                                textAlign = TextAlign.Start,
-                                fontSize = 7.sp
-                            )
-                        }
-                    }
                     // кнопка
                     Button(
-                        onClick = { /* нав контрол */ },
+                        onClick = {
+                            LOGIN = login
+                            PASSWORD = password
+                            coroutineScope.launch {
+                                authViewModel.initDatabase {
+                                    navController.navigate(route = Screen.Movies.route)
+                                }
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
                             .background(Pink, shape = RoundedCornerShape(16.dp)),
                         colors = ButtonDefaults.buttonColors(containerColor = Pink)
                     ) {
-                        Text("Зарегистристрироваться", fontSize = 16.sp, color = Color.White)
+                        Text("Войти", fontSize = 16.sp, color = Color.White)
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
-
-                    // ссылка на регистрацию
-                    Box() {
-                        Text(
-                            text = "Уже есть профиль?",
-                            style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
-                            modifier = Modifier.align(TopCenter)
-                        )
-                        TextButton(
-                            onClick = { /* нав контрол */ },
-                            modifier = Modifier.align(BottomCenter)
-                        ) {
-                            Text("Войти в аккаунт", color = Pink)
-                        }
-                    }
                 }
             }
         }
@@ -226,6 +170,7 @@ fun LoginScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen()
+fun RegisterScreenPreview() {
+    val navController = rememberNavController()
+    RegisterScreen(navController = navController)
 }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "276456270804",
+    "firebase_url": "https://cinema-9e368-default-rtdb.firebaseio.com",
+    "project_id": "cinema-9e368",
+    "storage_bucket": "cinema-9e368.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276456270804:android:15087bda72edae79c48441",
+        "android_client_info": {
+          "package_name": "com.example.cimena"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOJH_bXmSG74vqoW18cGKcyR8sR4mMZeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
